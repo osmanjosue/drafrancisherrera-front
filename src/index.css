@@ -1,38 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
 /* Design System & Base Styling */
 :root {
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   --font-display: 'Outfit', var(--font-sans);
+  --font-script: 'Great Vibes', cursive;
 
-  /* Color Palette (Sleek medical/professional theme) */
-  --primary-hue: 185; /* Teal */
-  --primary: hsl(var(--primary-hue), 75%, 40%);
-  --primary-light: hsl(var(--primary-hue), 80%, 93%);
-  --primary-dark: hsl(var(--primary-hue), 85%, 28%);
-  
-  --secondary-hue: 220; /* Slate Blue */
-  --secondary: hsl(var(--secondary-hue), 60%, 45%);
-  --secondary-light: hsl(var(--secondary-hue), 65%, 95%);
-  --secondary-dark: hsl(var(--secondary-hue), 70%, 25%);
+  /* Color Palette (Dra. Francis Herrera - Elegant Indigo & Slate Blue theme) */
+  --primary-hue: 260;
+  /* Violet / Indigo */
+  --primary: hsl(var(--primary-hue), 52%, 25%);
+  /* Deep sophisticated violet-blue #281C5F */
+  --primary-light: hsl(var(--primary-hue), 45%, 94%);
+  /* Soft lila-blue white #f3eef9 */
+  --primary-dark: hsl(var(--primary-hue), 60%, 18%);
+  /* Vibrant deep indigo #140C3B */
 
-  --neutral-100: #f8fafc;
-  --neutral-200: #e2e8f0;
-  --neutral-300: #cbd5e1;
-  --neutral-700: #334155;
-  --neutral-800: #1e293b;
-  --neutral-900: #0f172a;
+  --secondary-hue: 220;
+  /* Slate / Steel Blue */
+  --secondary: hsl(var(--secondary-hue), 55%, 48%);
+  /* Vibrant slate blue #3866BD */
+  --secondary-light: hsl(var(--secondary-hue), 60%, 92%);
+  /* Soft slate blue highlight #dce5f7 */
+  --secondary-dark: hsl(var(--secondary-hue), 58%, 32%);
+  /* Rich royal navy/slate blue #1E3A75 */
 
-  --accent-hue: 343; /* Elegant Coral/Rose accent */
-  --accent: hsl(var(--accent-hue), 85%, 60%);
-  --accent-light: hsl(var(--accent-hue), 90%, 95%);
+  --neutral-100: #f6f8fd;
+  /* Slate-tinted white background */
+  --neutral-200: #e2e8f5;
+  /* Soft slate border */
+  --neutral-300: #c5d1e8;
+  /* Medium slate border */
+  --neutral-700: #3f527a;
+  /* Dusty slate blue */
+  --neutral-800: #1d2d4f;
+  /* Vibrant dark slate-blue - clearly blue! */
+  --neutral-900: #0a1324;
+  /* Deep navy-black - dark, but with a strong navy-blue undertone */
+
+  --accent-hue: 342;
+  /* Elegant rose highlight */
+  --accent: hsl(var(--accent-hue), 63%, 72%);
+  /* Soft elegant rose #e58ba6 */
+  --accent-light: hsl(var(--accent-hue), 85%, 96%);
+  /* Pale pinkish highlight #fdf4f7 */
 
   --white: #ffffff;
-  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f0fdfa 50%, #ecfeff 100%);
-  
+  --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f6f8fd 50%, #e2e8f5 100%);
+
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
-  
+
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
@@ -41,8 +61,11 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
 /* Reset & Defaults */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -73,7 +96,12 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.2;
@@ -100,13 +128,13 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary {
   background: var(--primary);
   color: var(--white);
-  box-shadow: 0 4px 14px 0 hsla(var(--primary-hue), 75%, 40%, 0.3);
+  box-shadow: 0 4px 14px 0 hsla(var(--primary-hue), 52%, 23%, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 hsla(var(--primary-hue), 75%, 40%, 0.4);
+  box-shadow: 0 6px 20px 0 hsla(var(--primary-hue), 52%, 23%, 0.4);
 }
 
 .btn-secondary {
@@ -164,6 +192,18 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 
+.logo-image {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+}
+
+.logo:hover .logo-image {
+  transform: scale(1.05);
+}
+
 .logo-icon {
   background: var(--primary);
   color: var(--white);
@@ -176,7 +216,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(var(--primary-hue), 75%, 40%, 0.2);
+  box-shadow: 0 4px 10px hsla(var(--primary-hue), 52%, 23%, 0.2);
 }
 
 .logo-text {
@@ -283,9 +323,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.95); opacity: 0.5; }
-  50% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.5; }
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
 }
 
 .hero-title {
@@ -391,26 +442,28 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .stethoscope-glow {
-  background: var(--white);
-  border-radius: 50%;
-  padding: 30px;
-  box-shadow: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
-  border: 1px solid var(--primary-light);
   animation: float 6s ease-in-out infinite;
 }
 
 .stethoscope-svg {
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .floating-health-bubble {
@@ -465,9 +518,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes floatBubble {
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-8px) scale(1.02); }
-  100% { transform: translateY(0px) scale(1); }
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  100% {
+    transform: translateY(0px) scale(1);
+  }
 }
 
 /* Services Section */
@@ -862,7 +923,7 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   border-color: var(--primary);
   background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.25);
+  box-shadow: 0 0 0 4px hsla(var(--primary-hue), 52%, 23%, 0.25);
 }
 
 .form-group input:focus,
@@ -870,7 +931,7 @@ h1, h2, h3, h4, h5, h6 {
 .form-group select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+  box-shadow: 0 0 0 4px hsla(var(--primary-hue), 52%, 23%, 0.15);
 }
 
 /* Footer */
@@ -963,8 +1024,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes modalEnter {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .modal-close-btn {
@@ -1034,7 +1102,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
-  box-shadow: 0 4px 10px rgba(13, 148, 136, 0.15);
+  box-shadow: 0 4px 10px hsla(var(--primary-hue), 52%, 23%, 0.15);
 }
 
 .booking-success-view h3 {
@@ -1065,20 +1133,20 @@ h1, h2, h3, h4, h5, h6 {
     gap: 60px;
     text-align: center;
   }
-  
+
   .hero-content {
     align-items: center;
   }
-  
+
   .hero-subtitle {
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .hero-actions {
     justify-content: center;
   }
-  
+
   .metrics-grid {
     justify-content: center;
   }
@@ -1112,11 +1180,11 @@ h1, h2, h3, h4, h5, h6 {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .desktop-nav {
     display: none;
   }
-  
+
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1126,7 +1194,7 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr;
     gap: 0px;
   }
-  
+
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1135,4 +1203,39 @@ h1, h2, h3, h4, h5, h6 {
   .modal-content {
     padding: 24px;
   }
+}
+
+.logo-mask {
+  /* Usamos las dimensiones exactas que tenías para .logo-image */
+  width: 44px;
+  height: 44px;
+  display: inline-block;
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+  /* Esto mantendrá el efecto smooth al cambiar de color o hover */
+
+  /* Aplicación de la máscara */
+  -webkit-mask-image: var(--logo-url);
+  mask-image: var(--logo-url);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  /* Color base del logo usando tus variables */
+  background-color: var(--primary-dark);
+}
+
+/* Agregamos el efecto hover para que reaccione igual que antes, 
+   escalando y cambiando sutilmente a tu color primario */
+.logo:hover .logo-mask {
+  transform: scale(1.05);
+  background-color: var(--primary);
+}
+
+/* Cuando la máscara esté dentro del footer, cambia automáticamente a color blanco (o el de tu preferencia) */
+.main-footer .logo-mask {
+  background-color: var(--white);
 }

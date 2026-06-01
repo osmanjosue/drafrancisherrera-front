@@ -4,8 +4,18 @@ import { useState } from 'react';
 const SERVICES = [
   {
     id: 1,
-    title: 'Medicina General y Preventiva',
-    description: 'Chequeos médicos integrales, control de enfermedades crónicas, prevención y asesoramiento de salud familiar.',
+    title: 'Control Prenatal & Obstetricia',
+    description: 'Acompañamiento cálido y seguro en cada etapa del embarazo, monitoreo del desarrollo del bebé y atención experta al parto.',
+    icon: (
+      <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+    )
+  },
+  {
+    id: 2,
+    title: 'Chequeo Ginecológico Integral',
+    description: 'Evaluación preventiva completa que incluye Papanicolaou, ecografías pélvicas y transvaginales para una detección oportuna.',
     icon: (
       <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -13,9 +23,9 @@ const SERVICES = [
     )
   },
   {
-    id: 2,
-    title: 'Evaluación y Diagnóstico Especializado',
-    description: 'Diagnóstico preciso mediante evaluación de sintomatología clínica detallada y prescripción de estudios correspondientes.',
+    id: 3,
+    title: 'Planificación & Salud Reproductiva',
+    description: 'Asesoramiento personalizado en métodos anticonceptivos y colocación experta de dispositivos intrauterinos (DIU) e implantes.',
     icon: (
       <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -23,29 +33,18 @@ const SERVICES = [
     )
   },
   {
-    id: 3,
-    title: 'Consultas Online (Telemedicina)',
-    description: 'Atención a distancia desde la comodidad de tu hogar, ideal para seguimientos, revisión de estudios y recetas.',
-    icon: (
-      <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-      </svg>
-    )
-  },
-  {
     id: 4,
-    title: 'Bienestar y Nutrición Integral',
-    description: 'Planes personalizados orientados a un estilo de vida saludable enfocado en la prevención metabólica.',
+    title: 'Ginecología Endocrina & Menopausia',
+    description: 'Tratamiento especializado de desajustes hormonales, síndrome de ovario poliquístico (SOP), y manejo integral del climaterio.',
     icon: (
       <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
       </svg>
     )
   }
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'all' | 'clinic' | 'online'>('all');
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingStep, setBookingStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -88,20 +87,25 @@ export default function App() {
       <header className="main-header">
         <div className="container header-container">
           <a href="#" className="logo">
-            <span className="logo-icon">+</span>
+
+            <span
+              className="logo-image logo-mask"
+              style={{ '--logo-url': `url('/saludMujerLogo.svg')` } as React.CSSProperties}
+            ></span>
+
             <div className="logo-text">
               <span className="logo-title">Dra. Francis Herrera</span>
-              <span className="logo-sub">Medicina General & Bienestar</span>
+              <span className="logo-sub">Ginecología & Obstetricia</span>
             </div>
           </a>
-          
+
           <nav className="desktop-nav">
             <a href="#inicio" className="nav-link">Inicio</a>
             <a href="#servicios" className="nav-link">Servicios</a>
             <a href="#acerca" className="nav-link">Sobre Mí</a>
             <a href="#contacto" className="nav-link">Contacto</a>
           </nav>
-          
+
           <button className="btn btn-primary btn-header" onClick={() => setIsBookingOpen(true)}>
             Agendar Consulta
           </button>
@@ -120,7 +124,7 @@ export default function App() {
               Tu salud y bienestar en manos de <span className="highlight">profesionales</span>.
             </h1>
             <p className="hero-subtitle">
-              Ofrezco una atención médica cercana, de alta calidad y completamente personalizada. 
+              Ofrezco una atención médica cercana, de alta calidad y completamente personalizada.
               Enfocada en prevenir, diagnosticar y acompañar a cada paciente en su camino hacia una vida más saludable.
             </p>
             <div className="hero-actions">
@@ -134,7 +138,7 @@ export default function App() {
                 Ver especialidades
               </a>
             </div>
-            
+
             {/* Quick Metrics */}
             <div className="metrics-grid">
               <div className="metric-item">
@@ -151,22 +155,30 @@ export default function App() {
               </div>
             </div>
           </div>
-          
+
           <div className="hero-image-container">
             <div className="doctor-visual-card">
               <div className="visual-bg-glow"></div>
               <div className="visual-graphic">
                 {/* Modern graphic card representing healthcare & technology */}
                 <div className="stethoscope-glow">
-                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="stethoscope-svg">
-                    <path d="M4.5 16.5c-1.5 1.26-2.5 3.19-2.5 5.5v2h20v-2c0-2.31-1-4.24-2.5-5.5" />
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-                  </svg>
+                  <span
+                    className="logo-mask"
+                    style={{
+                      '--logo-url': `url('/saludMujerLogo.svg')`,
+                      width: '216px',
+                      height: '216px',
+                      backgroundColor: 'var(--primary)',
+                      display: 'inline-block',
+                      borderRadius: '50%',
+                      boxShadow: 'var(--shadow-xl)'
+                    } as React.CSSProperties}
+                  ></span>
                 </div>
                 <div className="floating-health-bubble">
                   <div className="bubble-icon">❤️</div>
                   <div className="bubble-text">
-                    <strong>Salud Familiar</strong>
+                    <strong>Salud Femenina</strong>
                     <span>Cuidado Integral</span>
                   </div>
                 </div>
@@ -238,8 +250,8 @@ export default function App() {
           <div className="about-content">
             <span className="section-tag">Sobre Mí</span>
             <h2 className="section-title">Dra. Francis Herrera</h2>
-            <p className="about-subtitle-meta">Médico Cirujano y Especialista en Salud Familiar</p>
-            
+            <p className="about-subtitle-meta">Médica Cirujana y Especialista en Ginecología y Obstetricia</p>
+
             <div className="about-paragraphs">
               <p>
                 Me dedico a brindar una medicina de excelencia, fundamentada en la empatía, la rigurosidad científica y el acompañamiento constante a mis pacientes. Mi objetivo es que cada consulta sea un espacio de seguridad y confianza.
@@ -265,7 +277,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-            
+
             <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
               Agendar una consulta conmigo
             </button>
@@ -289,7 +301,7 @@ export default function App() {
                   <div className="detail-icon">📍</div>
                   <div>
                     <h4>Dirección del Consultorio</h4>
-                    <p>Torre Médica del Bosque, Consultorio 402, Tegucigalpa, Honduras</p>
+                    <p>Tocoa, Colón, Barrio Las Flores, Plaza San Miguel (Clínica Santa Fe / Clínica Salud Mujer)</p>
                   </div>
                 </div>
 
@@ -297,7 +309,7 @@ export default function App() {
                   <div className="detail-icon">📞</div>
                   <div>
                     <h4>Teléfono & WhatsApp</h4>
-                    <p>+504 9999-8888 / +504 2222-3333</p>
+                    <p>+504 8997-9455</p>
                   </div>
                 </div>
 
@@ -313,7 +325,7 @@ export default function App() {
                   <div className="detail-icon">⏰</div>
                   <div>
                     <h4>Horarios de Atención</h4>
-                    <p>Lunes a Viernes: 9:00 AM - 5:00 PM <br/> Sábados: 9:00 AM - 1:00 PM</p>
+                    <p>Lunes a Viernes: 9:00 AM - 5:00 PM <br /> Sábados: 9:00 AM - 1:00 PM</p>
                   </div>
                 </div>
               </div>
@@ -348,9 +360,14 @@ export default function App() {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <span className="logo-icon">+</span>
+
+              <span
+                className="logo-image logo-mask"
+                style={{ '--logo-url': `url('/saludMujerLogo.svg')` } as React.CSSProperties}
+              ></span>
+
               <h3>Dra. Francis Herrera</h3>
-              <p>Tu bienestar integral y tu salud familiar son nuestra máxima prioridad profesional.</p>
+              <p>Tu bienestar integral y tu salud ginecológica son nuestra máxima prioridad profesional.</p>
             </div>
             <div className="footer-links">
               <h4>Enlaces Rápidos</h4>
@@ -381,35 +398,35 @@ export default function App() {
         <div className="modal-overlay" onClick={resetBooking}>
           <div className="modal-content glass-card" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close-btn" onClick={resetBooking}>×</button>
-            
+
             {bookingStep === 1 ? (
               <>
                 <h3 className="modal-title">Agendar Tu Cita Médica</h3>
                 <p className="modal-subtitle">Completa este breve formulario y confirmaremos tu espacio médico de inmediato.</p>
-                
+
                 <form onSubmit={handleFormSubmit} className="booking-form">
                   <div className="form-grid">
                     <div className="form-group">
                       <label>Nombre Completo</label>
-                      <input 
-                        type="text" 
-                        name="nombre" 
-                        required 
-                        value={formData.nombre} 
-                        onChange={handleInputChange} 
-                        placeholder="Ej. María López" 
+                      <input
+                        type="text"
+                        name="nombre"
+                        required
+                        value={formData.nombre}
+                        onChange={handleInputChange}
+                        placeholder="Ej. María López"
                       />
                     </div>
-                    
+
                     <div className="form-group">
                       <label>Número de Teléfono</label>
-                      <input 
-                        type="tel" 
-                        name="telefono" 
-                        required 
-                        value={formData.telefono} 
-                        onChange={handleInputChange} 
-                        placeholder="Ej. +504 9999-1111" 
+                      <input
+                        type="tel"
+                        name="telefono"
+                        required
+                        value={formData.telefono}
+                        onChange={handleInputChange}
+                        placeholder="Ej. +504 9999-1111"
                       />
                     </div>
                   </div>
@@ -417,24 +434,24 @@ export default function App() {
                   <div className="form-grid">
                     <div className="form-group">
                       <label>Correo Electrónico</label>
-                      <input 
-                        type="email" 
-                        name="email" 
-                        required 
-                        value={formData.email} 
-                        onChange={handleInputChange} 
-                        placeholder="maria@ejemplo.com" 
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="maria@ejemplo.com"
                       />
                     </div>
-                    
+
                     <div className="form-group">
                       <label>Fecha Deseada</label>
-                      <input 
-                        type="date" 
-                        name="fecha" 
-                        required 
-                        value={formData.fecha} 
-                        onChange={handleInputChange} 
+                      <input
+                        type="date"
+                        name="fecha"
+                        required
+                        value={formData.fecha}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>
@@ -443,7 +460,7 @@ export default function App() {
                     <div className="form-group">
                       <label>Tipo de Consulta</label>
                       <select name="tipo" value={formData.tipo} onChange={handleInputChange}>
-                        <option value="Presencial">Presencial (Consultorio Torre Médica)</option>
+                        <option value="Presencial">Presencial (Plaza San Miguel - Clínica Santa Fe / Salud Mujer)</option>
                         <option value="Online">Online / Telemedicina</option>
                       </select>
                     </div>
@@ -451,12 +468,12 @@ export default function App() {
 
                   <div className="form-group">
                     <label>Motivo de Consulta / Síntomas</label>
-                    <textarea 
-                      name="motivo" 
-                      rows={3} 
-                      required 
-                      value={formData.motivo} 
-                      onChange={handleInputChange} 
+                    <textarea
+                      name="motivo"
+                      rows={3}
+                      required
+                      value={formData.motivo}
+                      onChange={handleInputChange}
                       placeholder="Ej. Chequeo general rutinario, dolor de cabeza constante, etc."
                     />
                   </div>
