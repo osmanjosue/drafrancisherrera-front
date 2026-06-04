@@ -4,49 +4,118 @@ import { useState } from 'react';
 const SERVICES = [
   {
     id: 1,
-    title: 'Control Prenatal & Obstetricia',
-    description: 'Acompañamiento cálido y seguro en cada etapa del embarazo, monitoreo del desarrollo del bebé y atención experta al parto.',
+    title: 'Ginecología General',
+    description: 'Control anual, detección temprana y tratamientos clínicos para cuidar de tu salud íntima en cada etapa.',
     icon: (
-      <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      <svg className="service-icon" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M22 12h-4l-3 9L9 3l-3 9H2" />
       </svg>
-    )
+    ),
+    items: [
+      'Control ginecológico anual.',
+      'Citología cervical.',
+      'Colposcopia.',
+      'Diagnóstico y tratamiento de infecciones vaginales.',
+      'Manejo de trastornos menstruales.',
+      'Evaluación y tratamiento del Síndrome Ovárico Metabólico Poliendocrino (SOMP).',
+      'Diagnóstico y manejo de miomatosis uterina.',
+      'Diagnóstico y manejo de quistes ováricos.'
+    ]
   },
   {
     id: 2,
-    title: 'Chequeo Ginecológico Integral',
-    description: 'Evaluación preventiva completa que incluye Papanicolaou, ecografías pélvicas y transvaginales para una detección oportuna.',
+    title: 'Cirugía Ginecológica',
+    description: 'Procedimientos quirúrgicos especializados con técnicas modernas y mínimamente invasivas para tu pronta recuperación.',
     icon: (
-      <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      <svg className="service-icon" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14.121 14.121L19 19M12 4v4m0 8v4m-8-8h4m8 0h4" />
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
       </svg>
-    )
+    ),
+    items: [
+      'Histerectomía.',
+      'Miomectomía.',
+      'Resección de quistes ováricos.',
+      'Conización cervical.',
+      'Biopsias ginecológicas.'
+    ]
   },
   {
     id: 3,
-    title: 'Planificación & Salud Reproductiva',
-    description: 'Asesoramiento personalizado en métodos anticonceptivos y colocación experta de dispositivos intrauterinos (DIU) e implantes.',
+    title: 'Obstetricia',
+    description: 'Cuidado integral del embarazo, control prenatal detallado y acompañamiento experto en el parto y posparto.',
     icon: (
-      <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+      <svg className="service-icon" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
-    )
+    ),
+    items: [
+      'Control prenatal.',
+      'Ultrasonido obstétrico.',
+      'Atención de parto.',
+      'Cesáreas.',
+      'Control posparto.'
+    ]
   },
   {
     id: 4,
-    title: 'Ginecología Endocrina & Menopausia',
-    description: 'Tratamiento especializado de desajustes hormonales, síndrome de ovario poliquístico (SOP), y manejo integral del climaterio.',
+    title: 'Planificación Familiar',
+    description: 'Asesoría anticonceptiva personalizada y colocación/retiro de métodos de larga duración altamente efectivos.',
     icon: (
-      <svg className="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      <svg className="service-icon" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3" />
       </svg>
-    )
+    ),
+    items: [
+      'Asesoría anticonceptiva personalizada.',
+      'Colocación y retiro de dispositivos intrauterinos (DIU).',
+      'Colocación y retiro de implantes subdérmicos.'
+    ]
+  },
+  {
+    id: 5,
+    title: 'Ginecología Estética Funcional y Regenerativa',
+    description: 'Tratamientos avanzados con láser y terapias regenerativas para mejorar tu calidad de vida y bienestar íntimo.',
+    icon: (
+      <svg className="service-icon" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+      </svg>
+    ),
+    items: [
+      'Rejuvenecimiento íntimo femenino.',
+      'Tratamientos con láser ginecológico.',
+      'Manejo de atrofia vaginal.',
+      'Tratamiento de sequedad vaginal.',
+      'Manejo de laxitud vaginal.',
+      'Tratamiento de incontinencia urinaria leve.',
+      'Manejo de dispareunia (dolor durante las relaciones sexuales).',
+      'Regeneración vulvovaginal.',
+      'Blanqueamiento íntimo.'
+    ]
+  },
+  {
+    id: 6,
+    title: 'Prevención y Diagnóstico Especializado',
+    description: 'Métodos avanzados de prevención como vacunación, tipificación de VPH y chequeos preventivos oportunos.',
+    icon: (
+      <svg className="service-icon" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+    items: [
+      'Vacunación contra el Virus del Papiloma Humano (VPH).',
+      'PCR para Virus del Papiloma Humano (VPH).',
+      'Detección temprana de cáncer de cuello uterino.',
+      'Detección temprana de cáncer de mama.',
+      'Chequeos ginecológicos preventivos.'
+    ]
   }
 ];
 
 export default function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingStep, setBookingStep] = useState(1);
+  const [activeServiceId, setActiveServiceId] = useState(1);
   const [formData, setFormData] = useState({
     nombre: '',
     telefono: '',
@@ -121,7 +190,7 @@ export default function App() {
               Atención Médica de Confianza
             </span>
             <h1 className="hero-title">
-              Tu salud y bienestar en manos de <span className="highlight">profesionales</span>.
+              Salud femenina, equilibrio hormonal y <span className="highlight">bienestar íntimo</span> con respaldo científico y atención humana.
             </h1>
             <p className="hero-subtitle">
               Ofrezco una atención médica cercana, de alta calidad y completamente personalizada.
@@ -206,22 +275,83 @@ export default function App() {
             </p>
           </div>
 
-          <div className="services-grid">
-            {SERVICES.map((service) => (
-              <div key={service.id} className="glass-card service-card">
-                <div className="service-icon-wrapper">
-                  {service.icon}
-                </div>
-                <h3 className="service-card-title">{service.title}</h3>
-                <p className="service-card-desc">{service.description}</p>
-                <span className="service-learn-more" onClick={() => setIsBookingOpen(true)}>
-                  Solicitar este servicio
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </div>
-            ))}
+          <div className="services-layout">
+            {/* Tabs Selector */}
+            <div className="services-tabs">
+              {SERVICES.map((service) => (
+                <button
+                  key={service.id}
+                  className={`service-tab-button ${activeServiceId === service.id ? 'active' : ''}`}
+                  onClick={() => setActiveServiceId(service.id)}
+                >
+                  <div className="tab-icon-wrapper">
+                    {service.icon}
+                  </div>
+                  <span className="tab-title">{service.title}</span>
+                  <span className="tab-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* Detail Panel */}
+            <div className="services-detail-container">
+              {SERVICES.map((service) => {
+                if (service.id !== activeServiceId) return null;
+                return (
+                  <div key={service.id} className="glass-card services-detail-panel animate-fade-in">
+                    <div className="detail-header">
+                      <div className="detail-icon-bg">
+                        {service.icon}
+                      </div>
+                      <div className="detail-header-text">
+                        <h3 className="detail-title">{service.title}</h3>
+                        <p className="detail-subtitle-meta">Servicio de Especialidad Médica</p>
+                      </div>
+                    </div>
+                    
+                    <p className="detail-description">{service.description}</p>
+                    
+                    <div className="services-list-divider"></div>
+                    
+                    <h4 className="procedures-title">Procedimientos & Tratamientos</h4>
+                    <div className="services-list-grid">
+                      {service.items.map((item, index) => (
+                        <div key={index} className="service-item">
+                          <span className="service-item-bullet">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                              <path d="M20 6L9 17l-5-5" />
+                            </svg>
+                          </span>
+                          <span className="service-item-text">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="detail-actions">
+                      <button 
+                        className="btn btn-primary" 
+                        onClick={() => {
+                          setFormData(prev => ({
+                            ...prev,
+                            motivo: `Consulta de Especialidad: ${service.title}`
+                          }));
+                          setIsBookingOpen(true);
+                        }}
+                      >
+                        Solicitar consulta para {service.title}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -261,26 +391,78 @@ export default function App() {
               </p>
             </div>
 
-            <div className="credentials-list">
-              <div className="credential-item">
-                <span className="cred-bullet">✓</span>
-                <div>
-                  <strong>Título en Medicina y Cirugía</strong>
-                  <p>Universidad Nacional Autónoma de Honduras (UNAH)</p>
-                </div>
-              </div>
-              <div className="credential-item">
-                <span className="cred-bullet">✓</span>
-                <div>
-                  <strong>Especialización en Gestión de Servicios de Salud</strong>
-                  <p>Estudios avanzados en atención médica de calidad y seguridad del paciente.</p>
-                </div>
-              </div>
+            <div className="colegiacion-badge">
+              <span className="colegiacion-label">Colegiación:</span>
+              <span className="colegiacion-value">Colegio Médico de Honduras, No. 9908</span>
             </div>
 
             <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
               Agendar una consulta conmigo
             </button>
+          </div>
+        </div>
+
+        {/* Credentials Grid */}
+        <div className="container credentials-container">
+          <div className="credentials-grid">
+            {/* Formación Académica */}
+            <div className="glass-card credential-card">
+              <div className="credential-card-header">
+                <span className="cred-icon">🎓</span>
+                <h3>Formación Académica</h3>
+              </div>
+              <ul className="cred-list">
+                <li>
+                  <strong>Doctora en Medicina y Cirugía</strong>
+                  <span>Universidad Nacional Autónoma de Honduras (UNAH), 2014.</span>
+                </li>
+                <li>
+                  <strong>Magíster Artium y Especialista en Ginecología y Obstetricia</strong>
+                  <span className="cred-distinction">Distinción Cum Laude</span>
+                  <span>Universidad Mariano Gálvez de Guatemala, 2024.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Certificaciones Internacionales */}
+            <div className="glass-card credential-card">
+              <div className="credential-card-header">
+                <span className="cred-icon">🌐</span>
+                <h3>Certificaciones Internacionales</h3>
+              </div>
+              <ul className="cred-list">
+                <li>
+                  <strong>Ginecología Láser y Estética</strong>
+                  <span>Certificada por The American Board of Laser Surgery (ABLS), 2025.</span>
+                </li>
+                <li>
+                  <strong>Armonización Vulvar</strong>
+                  <span>Curso Práctico Avanzado — SILGEF y The American Board of Laser Surgery (ABLS), Ciudad de México, 2025.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Diplomados */}
+            <div className="glass-card credential-card">
+              <div className="credential-card-header">
+                <span className="cred-icon">📜</span>
+                <h3>Diplomados</h3>
+              </div>
+              <ul className="cred-list">
+                <li>
+                  <strong>Ginecología Estética Funcional y Regenerativa</strong>
+                  <span>Diplomado Avanzado — ACOG Guatemala.</span>
+                </li>
+                <li>
+                  <strong>Colposcopía, Vulva y VPH (160 horas)</strong>
+                  <span>Diplomado Internacional — SAVEPH, UISEK, UAI e IFCPC, 2025.</span>
+                </li>
+                <li>
+                  <strong>Menopausia y Andropausia</strong>
+                  <span>Diplomado Internacional de la Asociación Argentina de Menopausia y Andropausia (AAMA) — Actualmente cursando.</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
