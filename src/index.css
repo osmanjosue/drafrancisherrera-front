@@ -10,14 +10,14 @@
   --primary-hue: 275;
   /* Hue 275 corresponds to a beautiful soft purple/lavender */
 
-  --primary: hsl(var(--primary-hue), 45%, 48%);
-  /* Soft lavender purple - has good contrast with white text */
+  --primary: hsl(var(--primary-hue), 38%, 56%);
+  /* Soft lavender purple - very gentle and elegant */
 
-  --primary-light: hsl(var(--primary-hue), 50%, 95%);
-  /* Very soft lilac tint for backgrounds */
+  --primary-light: hsl(var(--primary-hue), 40%, 96%);
+  /* Extremely soft lilac tint for backgrounds */
 
-  --primary-dark: hsl(var(--primary-hue), 45%, 38%);
-  /* Deeper purple for hover states and active borders */
+  --primary-dark: hsl(var(--primary-hue), 40%, 44%);
+  /* Gentle medium-dark purple for hover states and text highlights */
 
   --secondary-hue: 220;
   /* Slate / Steel Blue */
@@ -687,7 +687,7 @@ h6 {
 }
 
 .services-detail-panel {
-  padding: 44px;
+  padding: 0;
   background: rgba(255, 255, 255, 0.85);
   border-color: rgba(255, 255, 255, 0.8);
   box-shadow: var(--shadow-xl);
@@ -874,7 +874,7 @@ h6 {
 
 @media (max-width: 768px) {
   .services-detail-panel {
-    padding: 28px 20px;
+    padding: 0;
   }
 
   .detail-header {
