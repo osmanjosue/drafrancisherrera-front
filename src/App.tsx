@@ -5,6 +5,7 @@ import { CREDENTIALS } from './data/credentials';
 import { CONTACT_INFO } from './data/contact';
 import { CONTACT_FORM_FIELDS } from './data/contactForm';
 import type { FormField } from './data/contactForm';
+import { DOCTOR_INFO } from './data/doctor';
 
 const createInitialContactState = () => {
   return CONTACT_FORM_FIELDS.reduce((acc, field) => {
@@ -81,7 +82,7 @@ export default function App() {
             ></span>
 
             <div className="logo-text">
-              <span className="logo-title">Dra. Francis Herrera</span>
+              <span className="logo-title">{DOCTOR_INFO.fullName}</span>
               <span className="logo-sub">Ginecología & Obstetricia</span>
             </div>
           </a>
@@ -103,42 +104,50 @@ export default function App() {
       <section id="inicio" className="hero-section">
         <div className="container hero-container">
           <div className="hero-content">
-            <span className="badge">
-              <span className="badge-dot"></span>
-              Atención Médica de Confianza
-            </span>
+            <div className="profile-header">
+              <span className="profile-colegiacion">
+                <span className="colegiacion-icon">⚕️</span> Colegiación: {DOCTOR_INFO.colegiacion.join(' - ')}
+              </span>
+            </div>
             <h1 className="hero-title">
               Salud femenina, equilibrio hormonal y <span className="highlight">bienestar íntimo</span> con respaldo científico y atención humana.
             </h1>
-            <p className="hero-subtitle">
-              Ofrezco una atención médica cercana, de alta calidad y completamente personalizada.
-              Enfocada en prevenir, diagnosticar y acompañar a cada paciente en su camino hacia una vida más saludable.
-            </p>
-            <div className="hero-actions">
-              <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
-                Reservar cita online
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </button>
-              <a href="#servicios" className="btn btn-secondary">
-                Ver especialidades
-              </a>
-            </div>
 
-            {/* Quick Metrics */}
-            <div className="metrics-grid">
-              <div className="metric-item">
-                <span className="metric-num">10+</span>
-                <span className="metric-label">Años de Experiencia</span>
-              </div>
-              <div className="metric-item">
-                <span className="metric-num">5k+</span>
-                <span className="metric-label">Pacientes Satisfechos</span>
-              </div>
-              <div className="metric-item">
-                <span className="metric-num">100%</span>
-                <span className="metric-label">Atención Humana</span>
+            {/* Resumen Profesional */}
+            <div className="glass-card hero-profile-summary">
+
+              <div className="profile-cards-container">
+                {/* Especialidades Card */}
+                <div className="profile-sub-card">
+                  <div className="sub-card-header">
+                    <span className="sub-card-icon">🩺</span>
+                    <h4>Especialidades Médicas</h4>
+                  </div>
+                  <div className="sub-card-content">
+                    {DOCTOR_INFO.specialties.map((spec, index) => (
+                      <div className="profile-badge-item" key={index}>
+                        <span className="badge-bullet">✦</span>
+                        <span>{spec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Experiencia Card */}
+                <div className="profile-sub-card">
+                  <div className="sub-card-header">
+                    <span className="sub-card-icon">⏳</span>
+                    <h4>Experiencia & Trayectoria</h4>
+                  </div>
+                  <div className="sub-card-content">
+                    {DOCTOR_INFO.experience.map((exp, index) => (
+                      <div className="profile-badge-item" key={index}>
+                        <span className="badge-bullet">✦</span>
+                        <span>{exp}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -178,6 +187,36 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+            {/* Quick Metrics */}
+            <div className="metrics-grid glass-card">
+              <div className="profile-sub-card metric-item">
+                <span className="metric-num">12+</span>
+                <span className="metric-label">Años de Experiencia</span>
+              </div>
+              <div className="profile-sub-card metric-item">
+                <span className="metric-num">1,000+</span>
+                <span className="metric-label">Pacientes Atendidas</span>
+              </div>
+              <div className="profile-sub-card metric-item">
+                <span className="metric-num">100%</span>
+                <span className="metric-label">Atención Humana</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="container" style={{ marginTop: '40px' }}>
+          <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '0' }}>
+            <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
+              Reservar cita online
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+            <a href="#servicios" className="btn btn-secondary">
+              Ver especialidades
+            </a>
           </div>
         </div>
       </section>
@@ -228,11 +267,11 @@ export default function App() {
                       <p className="detail-subtitle-meta">Servicio de Especialidad Médica</p>
                     </div>
                   </div>
-                  
+
                   <p className="detail-description">{activeService.description}</p>
-                  
+
                   <div className="services-list-divider"></div>
-                  
+
                   <h4 className="procedures-title">Procedimientos & Tratamientos</h4>
                   <div className="services-list-grid">
                     {activeService.items.map((item, index) => (
@@ -277,24 +316,20 @@ export default function App() {
           <div className="about-graphic">
             <div className="about-img-frame">
               <div className="experience-tag">
-                <span className="exp-years">10+</span>
+                <span className="exp-years">12+</span>
                 <span className="exp-text">Años cuidando tu salud</span>
               </div>
-              <div className="abstract-doctor-illustration">
-                {/* A stylish aesthetic vector representation of a doctor */}
-                <div className="avatar-circle">
-                  <span className="avatar-initials">DH</span>
-                </div>
-                <div className="quote-badge">
-                  "El primer paso para la sanación es un diagnóstico con empatía."
-                </div>
-              </div>
+              <img 
+                src="/dra_francis_herrera.webp" 
+                alt="Dra. Francis Herrera" 
+                className="about-doctor-img"
+              />
             </div>
           </div>
 
           <div className="about-content">
             <span className="section-tag">Sobre Mí</span>
-            <h2 className="section-title">Dra. Francis Herrera</h2>
+            <h2 className="section-title">{DOCTOR_INFO.name}</h2>
             <p className="about-subtitle-meta">Médica Cirujana y Especialista en Ginecología y Obstetricia</p>
 
             <div className="about-paragraphs">
@@ -308,7 +343,7 @@ export default function App() {
 
             <div className="colegiacion-badge">
               <span className="colegiacion-label">Colegiación:</span>
-              <span className="colegiacion-value">Colegio Médico de Honduras, No. 9908</span>
+              <span className="colegiacion-value">{DOCTOR_INFO.colegiacion.join(', ')}</span>
             </div>
 
             <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
@@ -417,7 +452,7 @@ export default function App() {
                 style={{ '--logo-url': `url('/saludMujerLogo.svg')` } as React.CSSProperties}
               ></span>
 
-              <h3>Dra. Francis Herrera</h3>
+              <h3>{DOCTOR_INFO.name}</h3>
               <p>Tu bienestar integral y tu salud ginecológica son nuestra máxima prioridad profesional.</p>
             </div>
             <div className="footer-links">
@@ -439,7 +474,7 @@ export default function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; {new Date().getFullYear()} Dra. Francis Herrera. Todos los derechos reservados. Diseñado para un cuidado médico de calidad.</p>
+            <p>&copy; {new Date().getFullYear()} {DOCTOR_INFO.name}. Todos los derechos reservados. Diseñado para un cuidado médico de calidad.</p>
           </div>
         </div>
       </footer>

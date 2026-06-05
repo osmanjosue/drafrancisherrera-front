@@ -293,7 +293,7 @@ h6 {
 .hero-container {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
+  align-items: stretch;
   gap: 60px;
 }
 
@@ -301,6 +301,7 @@ h6 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 100%;
 }
 
 .badge {
@@ -345,7 +346,6 @@ h6 {
 .hero-title {
   font-size: 3.5rem;
   line-height: 1.15;
-  margin-bottom: 24px;
   letter-spacing: -0.02em;
 }
 
@@ -378,6 +378,7 @@ h6 {
   border-top: 1px solid var(--neutral-200);
   padding-top: 32px;
   width: 100%;
+  margin-top: auto;
 }
 
 .metric-item {
@@ -403,9 +404,11 @@ h6 {
 /* Hero Medical Graphic Art */
 .hero-image-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 32px;
   position: relative;
+  height: 100%;
 }
 
 .doctor-visual-card {
@@ -922,6 +925,20 @@ h6 {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
   position: relative;
+  transition: var(--transition);
+}
+
+.about-img-frame:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.about-doctor-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  display: block;
 }
 
 .experience-tag {
@@ -953,51 +970,6 @@ h6 {
   text-transform: uppercase;
   margin-top: 4px;
   white-space: nowrap;
-}
-
-.abstract-doctor-illustration {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 30px;
-}
-
-.avatar-circle {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-md);
-  margin-bottom: 24px;
-}
-
-.avatar-initials {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.05em;
-}
-
-.quote-badge {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 16px;
-  border-radius: var(--radius-md);
-  font-style: italic;
-  font-size: 0.85rem;
-  color: var(--neutral-800);
-  text-align: center;
-  box-shadow: var(--shadow-md);
-  max-width: 280px;
 }
 
 .about-content {
@@ -1606,4 +1578,137 @@ h6 {
 /* Cuando la máscara esté dentro del footer, cambia automáticamente a color blanco (o el de tu preferencia) */
 .main-footer .logo-mask {
   background-color: var(--white);
+}
+
+/* Hero Profile Summary Custom Card */
+.hero-profile-summary {
+  padding: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--primary-hue), 40%, 80%, 0.15);
+  background: rgba(255, 255, 255, 0.45);
+  width: 100%;
+  margin-top: auto;
+}
+
+.profile-header {
+  border-bottom: 1px solid var(--neutral-200);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.profile-header h3 {
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+
+.profile-colegiacion {
+  font-size: 0.85rem;
+  color: var(--neutral-700);
+  font-weight: 600;
+  background: var(--white);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--neutral-200);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+
+.colegiacion-icon {
+  font-size: 1rem;
+}
+
+/* Container for the profile card grid */
+.profile-cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Sub-card styling */
+.profile-sub-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-sub-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+  background: var(--white);
+}
+
+.sub-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sub-card-icon {
+  font-size: 1.15rem;
+  background: var(--primary-light);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.sub-card-header h4 {
+  font-size: 1rem;
+  color: var(--neutral-900);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.sub-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Badge list items */
+.profile-badge-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--neutral-700);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.badge-bullet {
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .profile-cards-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
