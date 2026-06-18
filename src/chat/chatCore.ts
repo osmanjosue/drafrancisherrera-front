@@ -98,6 +98,10 @@ export interface ChatConfig {
     timeoutMs: number;
     maxRetries: number;
   };
+  /** Anti-bot opcional (Cloudflare Turnstile). siteKey vacío = desactivado. */
+  turnstile: {
+    siteKey: string;
+  };
   session: {
     ttlMs: number;
     storageKey: string;
@@ -123,10 +127,16 @@ const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
 
 export const CHAT_CONFIG: ChatConfig = {
   webhook: {
-    url: env('VITE_CHAT_WEBHOOK_URL', 'https://CAMBIAR-n8n.tu-dominio.com/webhook/chat'),
+    // Apunta al BACKEND propio (Express), no a n8n directo. El backend agrega
+    // el secreto hacia n8n y valida CORS/rate-limit/anti-bot.
+    url: env('VITE_CHAT_WEBHOOK_URL', 'https://CAMBIAR-tu-backend/api/webhook_chatbot_drafrancisherrera'),
     token: env('VITE_CHAT_WEBHOOK_TOKEN', ''),
     timeoutMs: 15000,
     maxRetries: 2,
+  },
+  turnstile: {
+    // Site key pública de Cloudflare Turnstile. Vacío = anti-bot desactivado.
+    siteKey: env('VITE_TURNSTILE_SITE_KEY', ''),
   },
   session: {
     ttlMs: TWO_HOURS_MS,
@@ -299,6 +309,11 @@ export interface WebhookTransportOptions {
   token: string;
   timeoutMs: number;
   maxRetries: number;
+  /**
+   * Proveedor opcional de cabeceras de autenticación (p.ej. el token anti-bot
+   * de Turnstile). Se invoca antes de cada intento para obtener un token fresco.
+   */
+  authProvider?: () => Promise<Record<string, string>>;
 }
 
 /** Error con código HTTP para diferenciar 4xx (no reintentar) de 5xx. */
@@ -352,11 +367,18 @@ export class WebhookTransport implements IChatTransport {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), this.options.timeoutMs);
 
+    // Cabeceras de autenticación dinámicas (p.ej. token anti-bot Turnstile).
+    // Token fresco por intento, porque los tokens son de un solo uso.
+    const authHeaders = this.options.authProvider
+      ? await this.options.authProvider()
+      : {};
+
     try {
       const res = await fetch(this.options.url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...authHeaders,
           ...(this.options.token
             ? { 'X-Webhook-Token': this.options.token }
             : {}),
@@ -441,7 +463,90 @@ export class PayloadBuilder {
 }
 
 /* ============================================================================
- * 7. COMPOSITION ROOT (inyección de dependencias)
+ * 7. ANTI-BOT (Cloudflare Turnstile) — opcional
+ * ========================================================================== */
+
+/** API mínima de Turnstile que usamos (evita 'any'). */
+interface TurnstileApi {
+  render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+  execute: (id: string) => void;
+  reset: (id: string) => void;
+}
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
+
+let turnstileScriptPromise: Promise<void> | null = null;
+
+/** Carga el script de Turnstile una sola vez. */
+const loadTurnstileScript = (): Promise<void> => {
+  if (turnstileScriptPromise) return turnstileScriptPromise;
+  turnstileScriptPromise = new Promise<void>((resolve, reject) => {
+    if (typeof document === 'undefined') return resolve();
+    if (window.turnstile) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.async = true;
+    s.defer = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('No se pudo cargar Turnstile.'));
+    document.head.appendChild(s);
+  });
+  return turnstileScriptPromise;
+};
+
+/**
+ * Crea un proveedor de cabeceras anti-bot. Renderiza un widget invisible una
+ * vez y, en cada llamada, obtiene un token fresco (reset + execute). Devuelve
+ * { 'cf-turnstile-response': token } o {} si algo falla (el backend decide).
+ */
+export const createTurnstileTokenProvider = (
+  siteKey: string,
+): (() => Promise<Record<string, string>>) => {
+  let widgetId: string | undefined;
+  let pending: ((headers: Record<string, string>) => void) | null = null;
+
+  const resolvePending = (headers: Record<string, string>) => {
+    if (pending) {
+      pending(headers);
+      pending = null;
+    }
+  };
+
+  return async () => {
+    try {
+      await loadTurnstileScript();
+    } catch {
+      return {};
+    }
+    const turnstile = typeof window !== 'undefined' ? window.turnstile : undefined;
+    if (!turnstile) return {};
+
+    return new Promise<Record<string, string>>((resolve) => {
+      pending = resolve;
+      if (widgetId === undefined) {
+        const container = document.createElement('div');
+        container.style.display = 'none';
+        document.body.appendChild(container);
+        widgetId = turnstile.render(container, {
+          sitekey: siteKey,
+          size: 'invisible',
+          callback: (token: string) =>
+            resolvePending(token ? { 'cf-turnstile-response': token } : {}),
+          'error-callback': () => resolvePending({}),
+        });
+      } else {
+        turnstile.reset(widgetId);
+        turnstile.execute(widgetId);
+      }
+    });
+  };
+};
+
+/* ============================================================================
+ * 8. COMPOSITION ROOT (inyección de dependencias)
  * ========================================================================== */
 
 export interface ChatServices {
@@ -461,11 +566,17 @@ export const createChatServices = (
     slidingExpiration: config.session.slidingExpiration,
   });
 
+  // Anti-bot opcional: solo se activa si hay site key configurada.
+  const authProvider = config.turnstile.siteKey
+    ? createTurnstileTokenProvider(config.turnstile.siteKey)
+    : undefined;
+
   const transport = new WebhookTransport({
     url: config.webhook.url,
     token: config.webhook.token,
     timeoutMs: config.webhook.timeoutMs,
     maxRetries: config.webhook.maxRetries,
+    authProvider,
   });
 
   return { config, sessionManager, transport };
