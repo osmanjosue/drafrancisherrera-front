@@ -6,6 +6,7 @@ import { CONTACT_INFO } from './data/contact';
 import { CONTACT_FORM_FIELDS } from './data/contactForm';
 import type { FormField } from './data/contactForm';
 import { DOCTOR_INFO } from './data/doctor';
+import { ChatWidget } from './chat';
 
 const createInitialContactState = () => {
   return CONTACT_FORM_FIELDS.reduce((acc, field) => {
@@ -587,6 +588,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Widget de chat con IA (sesión anónima de 2h + escalado a WhatsApp) */}
+      <ChatWidget />
     </div>
   );
 }
