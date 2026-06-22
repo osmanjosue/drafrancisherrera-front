@@ -1274,6 +1274,20 @@ h6 {
   box-shadow: 0 0 0 4px hsla(var(--primary-hue), 52%, 23%, 0.15);
 }
 
+.form-group.has-error input,
+.form-group.has-error textarea,
+.form-group.has-error select {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.form-error {
+  display: block;
+  color: #dc2626;
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
 /* Footer */
 .main-footer {
   background: var(--neutral-900);
@@ -1445,6 +1459,16 @@ h6 {
   box-shadow: 0 4px 10px hsla(var(--primary-hue), 52%, 23%, 0.15);
 }
 
+.success-icon.error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.whatsapp-link {
+  font-weight: 700;
+  color: #25d366;
+}
+
 .booking-success-view h3 {
   font-size: 1.75rem;
   margin-bottom: 12px;
@@ -1578,6 +1602,15 @@ h6 {
 /* Cuando la máscara esté dentro del footer, cambia automáticamente a color blanco (o el de tu preferencia) */
 .main-footer .logo-mask {
   background-color: var(--white);
+}
+
+/* Logo grande del hero (reemplaza los estilos inline que tenía en el JSX) */
+.hero-logo {
+  width: 216px;
+  height: 216px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: var(--shadow-xl);
 }
 
 /* Hero Profile Summary Custom Card */

@@ -7,6 +7,11 @@ import { CONTACT_FORM_FIELDS } from './data/contactForm';
 import type { FormField } from './data/contactForm';
 import { DOCTOR_INFO } from './data/doctor';
 import { ChatWidget } from './chat';
+import { BookingModal, useBooking } from './booking';
+import { SITE_CONFIG } from './config/site';
+
+/** Estilo compartido para la máscara CSS del logo: inyecta la URL del asset desde el config. */
+const logoMaskStyle = { '--logo-url': `url('${SITE_CONFIG.logoUrl}')` } as React.CSSProperties;
 
 const createInitialContactState = () => {
   return CONTACT_FORM_FIELDS.reduce((acc, field) => {
@@ -31,44 +36,10 @@ export default function App() {
     alert(`¡Gracias por tu mensaje, ${contactFormData['name' as keyof typeof contactFormData] || 'paciente'}! Nos comunicaremos contigo muy pronto.`);
     setContactFormData(createInitialContactState());
   };
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [bookingStep, setBookingStep] = useState(1);
+
+  const booking = useBooking();
   const [activeServiceId, setActiveServiceId] = useState(1);
   const activeService = SERVICES.find(s => s.id === activeServiceId);
-  const [formData, setFormData] = useState({
-    nombre: '',
-    telefono: '',
-    email: '',
-    fecha: '',
-    motivo: '',
-    tipo: 'Presencial'
-  });
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const name = e.target.name as keyof typeof formData;
-    setFormData(prev => ({
-      ...prev,
-      [name]: e.target.value
-    }));
-  };
-
-  const handleFormSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setBookingStep(2);
-  };
-
-  const resetBooking = () => {
-    setIsBookingOpen(false);
-    setBookingStep(1);
-    setFormData({
-      nombre: '',
-      telefono: '',
-      email: '',
-      fecha: '',
-      motivo: '',
-      tipo: 'Presencial'
-    });
-  };
 
   return (
     <div className="app-wrapper">
@@ -77,10 +48,7 @@ export default function App() {
         <div className="container header-container">
           <a href="#" className="logo">
 
-            <span
-              className="logo-image logo-mask"
-              style={{ '--logo-url': `url('/saludMujerLogo.svg')` } as React.CSSProperties}
-            ></span>
+            <span className="logo-image logo-mask" style={logoMaskStyle}></span>
 
             <div className="logo-text">
               <span className="logo-title">{DOCTOR_INFO.fullName}</span>
@@ -95,7 +63,7 @@ export default function App() {
             <a href="#contacto" className="nav-link">Contacto</a>
           </nav>
 
-          <button className="btn btn-primary btn-header" onClick={() => setIsBookingOpen(true)}>
+          <button className="btn btn-primary btn-header" onClick={() => booking.open()}>
             Agendar Consulta
           </button>
         </div>
@@ -159,18 +127,7 @@ export default function App() {
               <div className="visual-graphic">
                 {/* Modern graphic card representing healthcare & technology */}
                 <div className="stethoscope-glow">
-                  <span
-                    className="logo-mask"
-                    style={{
-                      '--logo-url': `url('/saludMujerLogo.svg')`,
-                      width: '216px',
-                      height: '216px',
-                      backgroundColor: 'var(--primary)',
-                      display: 'inline-block',
-                      borderRadius: '50%',
-                      boxShadow: 'var(--shadow-xl)'
-                    } as React.CSSProperties}
-                  ></span>
+                  <span className="logo-mask hero-logo" style={logoMaskStyle}></span>
                 </div>
                 <div className="floating-health-bubble">
                   <div className="bubble-icon">❤️</div>
@@ -209,7 +166,7 @@ export default function App() {
 
         <div className="container" style={{ marginTop: '40px' }}>
           <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '0' }}>
-            <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
+            <button className="btn btn-primary" onClick={() => booking.open()}>
               Reservar cita online
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -290,13 +247,7 @@ export default function App() {
                   <div className="detail-actions">
                     <button
                       className="btn btn-primary"
-                      onClick={() => {
-                        setFormData(prev => ({
-                          ...prev,
-                          motivo: `Consulta de Especialidad: ${activeService.title}`
-                        }));
-                        setIsBookingOpen(true);
-                      }}
+                      onClick={() => booking.open(`Consulta de Especialidad: ${activeService.title}`)}
                     >
                       Solicitar consulta para {activeService.title}
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -347,7 +298,7 @@ export default function App() {
               <span className="colegiacion-value">{DOCTOR_INFO.colegiacion.join(', ')}</span>
             </div>
 
-            <button className="btn btn-primary" onClick={() => setIsBookingOpen(true)}>
+            <button className="btn btn-primary" onClick={() => booking.open()}>
               Agendar una consulta conmigo
             </button>
           </div>
@@ -448,10 +399,7 @@ export default function App() {
           <div className="footer-grid">
             <div className="footer-brand">
 
-              <span
-                className="logo-image logo-mask"
-                style={{ '--logo-url': `url('/saludMujerLogo.svg')` } as React.CSSProperties}
-              ></span>
+              <span className="logo-image logo-mask" style={logoMaskStyle}></span>
 
               <h3>{DOCTOR_INFO.name}</h3>
               <p>Tu bienestar integral y tu salud ginecológica son nuestra máxima prioridad profesional.</p>
@@ -480,114 +428,8 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Appointment Booking Modal */}
-      {isBookingOpen && (
-        <div className="modal-overlay" onClick={resetBooking}>
-          <div className="modal-content glass-card" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={resetBooking}>×</button>
-
-            {bookingStep === 1 ? (
-              <>
-                <h3 className="modal-title">Agendar Tu Cita Médica</h3>
-                <p className="modal-subtitle">Completa este breve formulario y confirmaremos tu espacio médico de inmediato.</p>
-
-                <form onSubmit={handleFormSubmit} className="booking-form">
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label>Nombre Completo</label>
-                      <input
-                        type="text"
-                        name="nombre"
-                        required
-                        value={formData.nombre}
-                        onChange={handleInputChange}
-                        placeholder="Ej. María López"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Número de Teléfono</label>
-                      <input
-                        type="tel"
-                        name="telefono"
-                        required
-                        value={formData.telefono}
-                        onChange={handleInputChange}
-                        placeholder="Ej. +504 9999-1111"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label>Correo Electrónico</label>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="maria@ejemplo.com"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Fecha Deseada</label>
-                      <input
-                        type="date"
-                        name="fecha"
-                        required
-                        value={formData.fecha}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label>Tipo de Consulta</label>
-                      <select name="tipo" value={formData.tipo} onChange={handleInputChange}>
-                        <option value="Presencial">Presencial (Plaza San Miguel - Clínica Santa Fe / Salud Mujer)</option>
-                        <option value="Online">Online / Telemedicina</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label>Motivo de Consulta / Síntomas</label>
-                    <textarea
-                      name="motivo"
-                      rows={3}
-                      required
-                      value={formData.motivo}
-                      onChange={handleInputChange}
-                      placeholder="Ej. Chequeo general rutinario, dolor de cabeza constante, etc."
-                    />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary w-full">
-                    Solicitar Agenda
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="booking-success-view">
-                <div className="success-icon">✓</div>
-                <h3>¡Solicitud Recibida Exitosamente!</h3>
-                <p>
-                  Gracias por tu confianza, <strong>{formData.nombre}</strong>. Hemos registrado tu solicitud para el día <strong>{formData.fecha}</strong> de forma <strong>{formData.tipo}</strong>.
-                </p>
-                <p className="success-details">
-                  Te enviaremos un mensaje de confirmación por WhatsApp o correo electrónico dentro de los próximos 30 minutos con las horas específicas disponibles.
-                </p>
-                <button className="btn btn-primary" onClick={resetBooking}>
-                  Entendido
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      {/* Modal de reserva de cita (formulario + estados de éxito/error) */}
+      <BookingModal booking={booking} />
 
       {/* Widget de chat con IA (sesión anónima de 2h + escalado a WhatsApp) */}
       <ChatWidget />

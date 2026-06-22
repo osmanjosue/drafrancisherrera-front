@@ -11,6 +11,7 @@
  */
 
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { SITE_CONFIG } from '../config/site';
 
 /* ============================================================================
  * 1. CONTRATO / TIPOS
@@ -144,8 +145,8 @@ export const CHAT_CONFIG: ChatConfig = {
     slidingExpiration: false,
   },
   whatsapp: {
-    phone: '50489979455',
-    defaultMessage: 'Hola, vengo desde la web y necesito ayuda para agendar una cita.',
+    phone: SITE_CONFIG.whatsapp.phone,
+    defaultMessage: SITE_CONFIG.whatsapp.defaultMessage,
   },
   ui: {
     title: 'Asistente del Consultorio',
