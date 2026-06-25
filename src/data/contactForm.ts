@@ -1,11 +1,30 @@
+import {
+  validateMinLength,
+  validatePhone,
+  validateEmail,
+  validateRequired,
+  optional,
+} from '../utils/validators';
+
+export type ContactFieldId = 'name' | 'phone' | 'email' | 'message';
+
+export interface ContactData {
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+}
+
 export interface FormField {
-  id: 'name' | 'phone' | 'email' | 'message';
+  id: ContactFieldId;
   label: string;
   type: string;
   placeholder: string;
   required: boolean;
   as: 'input' | 'textarea';
   rows?: number;
+  /** Validador del campo. Reutiliza utils/validators (misma fuente que el backend). */
+  validate: (value: string) => string | null;
 }
 
 export const CONTACT_FORM_FIELDS: FormField[] = [
@@ -15,7 +34,8 @@ export const CONTACT_FORM_FIELDS: FormField[] = [
     type: 'text',
     placeholder: 'Ej. Juan Pérez',
     required: true,
-    as: 'input'
+    as: 'input',
+    validate: (v) => validateMinLength(v, 3)
   },
   {
     id: 'phone',
@@ -23,15 +43,17 @@ export const CONTACT_FORM_FIELDS: FormField[] = [
     type: 'tel',
     placeholder: 'A este numero le llamaremos',
     required: true,
-    as: 'input'
+    as: 'input',
+    validate: validatePhone
   },
   {
     id: 'email',
-    label: 'Correo Electrónico',
+    label: 'Correo Electrónico (opcional)',
     type: 'email',
     placeholder: 'juan@ejemplo.com',
     required: false,
-    as: 'input'
+    as: 'input',
+    validate: optional(validateEmail)
   },
   {
     id: 'message',
@@ -40,6 +62,7 @@ export const CONTACT_FORM_FIELDS: FormField[] = [
     placeholder: 'Describe brevemente tu motivo de consulta...',
     required: true,
     as: 'textarea',
-    rows: 4
+    rows: 4,
+    validate: (v) => validateRequired(v, 'Mensaje')
   }
 ];

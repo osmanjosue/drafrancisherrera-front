@@ -1,41 +1,19 @@
 import { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
 import { SERVICES } from './data/services';
 import { CREDENTIALS } from './data/credentials';
 import { CONTACT_INFO } from './data/contact';
 import { CONTACT_FORM_FIELDS } from './data/contactForm';
-import type { FormField } from './data/contactForm';
 import { DOCTOR_INFO } from './data/doctor';
 import { ChatWidget } from './chat';
 import { BookingModal, useBooking } from './booking';
+import { useContact } from './contact';
 import { SITE_CONFIG } from './config/site';
 
 /** Estilo compartido para la máscara CSS del logo: inyecta la URL del asset desde el config. */
 const logoMaskStyle = { '--logo-url': `url('${SITE_CONFIG.logoUrl}')` } as React.CSSProperties;
 
-const createInitialContactState = () => {
-  return CONTACT_FORM_FIELDS.reduce((acc, field) => {
-    acc[field.id] = '';
-    return acc;
-  }, {} as Record<FormField['id'], string>);
-};
-
 export default function App() {
-  const [contactFormData, setContactFormData] = useState(createInitialContactState);
-
-  const handleContactInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setContactFormData(prev => ({
-      ...prev,
-      [name as FormField['id']]: value
-    }));
-  };
-
-  const handleContactSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    alert(`¡Gracias por tu mensaje, ${contactFormData['name' as keyof typeof contactFormData] || 'paciente'}! Nos comunicaremos contigo muy pronto.`);
-    setContactFormData(createInitialContactState());
-  };
+  const contact = useContact();
 
   const booking = useBooking();
   const [activeServiceId, setActiveServiceId] = useState(1);
@@ -365,28 +343,68 @@ export default function App() {
 
             <div className="contact-form-panel">
               <div className="glass-card contact-form-card">
-                <h3>Envía un Mensaje Directo</h3>
-                <form onSubmit={handleContactSubmit}>
-                  {CONTACT_FORM_FIELDS.map((field) => {
-                    const InputComponent = field.as === 'textarea' ? 'textarea' : 'input';
-                    return (
-                      <div className="form-group" key={field.id}>
-                        <label htmlFor={field.id}>{field.label}</label>
-                        <InputComponent
-                          id={field.id}
-                          name={field.id}
-                          type={field.as === 'input' ? field.type : undefined}
-                          required={field.required}
-                          placeholder={field.placeholder}
-                          {...(field.as === 'textarea' ? { rows: field.rows } : {})}
-                          value={contactFormData[field.id as keyof typeof contactFormData]}
-                          onChange={handleContactInputChange}
-                        />
-                      </div>
-                    );
-                  })}
-                  <button type="submit" className="btn btn-primary w-full">Enviar Consulta</button>
-                </form>
+                {contact.step === 'success' ? (
+                  <div className="booking-success-view">
+                    <div className="success-icon">✓</div>
+                    <h3>¡Mensaje Enviado!</h3>
+                    <p className="success-details">
+                      Gracias por tu confianza. Hemos recibido tu consulta y nos pondremos en
+                      contacto contigo muy pronto.
+                    </p>
+                    <button className="btn btn-primary" onClick={contact.reset}>
+                      Enviar otro mensaje
+                    </button>
+                  </div>
+                ) : contact.step === 'error' ? (
+                  <div className="booking-success-view">
+                    <div className="success-icon error">!</div>
+                    <h3>Servicio no disponible</h3>
+                    <p className="success-details">
+                      No pudimos enviar tu mensaje en este momento. Puedes escribirnos directamente
+                      por WhatsApp o llamada al{' '}
+                      <a
+                        className="whatsapp-link"
+                        href={SITE_CONFIG.whatsapp.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {SITE_CONFIG.contact.phoneFormatted}
+                      </a>
+                      . ¡Con gusto te atenderemos!
+                    </p>
+                    <button className="btn btn-primary" onClick={() => contact.setStep('form')}>
+                      Intentar de nuevo
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <h3>Envía un Mensaje Directo</h3>
+                    <form onSubmit={contact.submit} noValidate>
+                      {CONTACT_FORM_FIELDS.map((field) => {
+                        const InputComponent = field.as === 'textarea' ? 'textarea' : 'input';
+                        const error = contact.errors[field.id];
+                        return (
+                          <div className={`form-group${error ? ' has-error' : ''}`} key={field.id}>
+                            <label htmlFor={field.id}>{field.label}</label>
+                            <InputComponent
+                              id={field.id}
+                              name={field.id}
+                              type={field.as === 'input' ? field.type : undefined}
+                              placeholder={field.placeholder}
+                              {...(field.as === 'textarea' ? { rows: field.rows } : {})}
+                              value={contact.data[field.id]}
+                              onChange={contact.handleChange}
+                            />
+                            {error && <span className="form-error">{error}</span>}
+                          </div>
+                        );
+                      })}
+                      <button type="submit" className="btn btn-primary w-full" disabled={contact.loading}>
+                        {contact.loading ? 'Enviando...' : 'Enviar Consulta'}
+                      </button>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
           </div>
