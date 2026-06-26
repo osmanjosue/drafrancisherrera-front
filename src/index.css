@@ -90,7 +90,12 @@ body {
   color: var(--neutral-800);
   line-height: 1.6;
   min-height: 100vh;
-  overflow-x: hidden;
+  /* Ancho mínimo soportado: por debajo de 410px el viewport hace scroll
+     horizontal (en vez de comprimir el contenido). NO se pone overflow aquí: el
+     viewport debe ser el único contenedor de scroll para no romper el
+     position: sticky del header. Los adornos que sobresalen se recortan en su
+     propia sección (ej. .hero-section { overflow: hidden }). */
+  min-width: 410px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -306,6 +311,9 @@ h6 {
   flex-direction: column;
   align-items: flex-start;
   height: 100%;
+  /* Permite que la columna del grid se encoja por debajo del min-content de sus
+     hijos (evita que un hijo ancho estire la columna y desborde el viewport). */
+  min-width: 0;
 }
 
 .badge {
@@ -388,6 +396,7 @@ h6 {
 .metric-item {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .metric-num {
@@ -413,6 +422,7 @@ h6 {
   gap: 32px;
   position: relative;
   height: 100%;
+  min-width: 0;
 }
 
 .doctor-visual-card {
@@ -1305,7 +1315,7 @@ h6 {
   .hero-container {
     grid-template-columns: 1fr;
     gap: 60px;
-    text-align: center;
+    text-align: left;
   }
 
   .hero-content {
@@ -1356,7 +1366,7 @@ h6 {
   }
 
   .desktop-nav {
-    display: none;
+    display: none;;
   }
 
   .contact-grid {
@@ -1376,6 +1386,37 @@ h6 {
 
   .modal-content {
     padding: 24px;
+  }
+}
+
+/* Pantallas angostas (objetivo: que todo quepa desde 410px de ancho) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  /* Las métricas mantienen 3 columnas pero se compactan para caber en 410px */
+  .metrics-grid {
+    gap: 12px;
+    padding: 20px;
+  }
+
+  .metric-num {
+    font-size: 1.6rem;
+  }
+
+  .metric-label {
+    font-size: 0.72rem;
+  }
+
+  /* En pantallas angostas el frame casi llena el ancho; se evita que el badge
+     sobresalga a la derecha y genere scroll horizontal en el viewport. */
+  .experience-tag {
+    right: 0;
   }
 }
 
