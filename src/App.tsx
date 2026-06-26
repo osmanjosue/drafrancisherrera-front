@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { SERVICES } from './data/services';
 import { CREDENTIALS } from './data/credentials';
 import { CONTACT_INFO } from './data/contact';
@@ -16,8 +15,6 @@ export default function App() {
   const contact = useContact();
 
   const booking = useBooking();
-  const [activeServiceId, setActiveServiceId] = useState(1);
-  const activeService = SERVICES.find(s => s.id === activeServiceId);
 
   return (
     <div className="app-wrapper">
@@ -168,74 +165,41 @@ export default function App() {
             </p>
           </div>
 
-          <div className="services-layout">
-            {/* Tabs Selector */}
-            <div className="services-tabs">
-              {SERVICES.map((service) => (
-                <button
-                  key={service.id}
-                  className={`service-tab-button ${activeServiceId === service.id ? 'active' : ''}`}
-                  onClick={() => setActiveServiceId(service.id)}
-                >
-                  <div className="tab-icon-wrapper">
+          <div className="services-grid">
+            {SERVICES.map((service) => (
+              <article key={service.id} className="glass-card service-card">
+                <div className="service-card-header">
+                  <div className="detail-icon-bg">
                     {service.icon}
                   </div>
-                  <span className="tab-title">{service.title}</span>
-                  <span className="tab-arrow">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {/* Detail Panel */}
-            <div className="services-detail-container">
-              {activeService && (
-                <div className="glass-card services-detail-panel animate-fade-in">
-                  <div className="detail-header">
-                    <div className="detail-icon-bg">
-                      {activeService.icon}
-                    </div>
-                    <div className="detail-header-text">
-                      <h3 className="detail-title">{activeService.title}</h3>
-                      <p className="detail-subtitle-meta">Servicio de Especialidad Médica</p>
-                    </div>
-                  </div>
-
-                  <p className="detail-description">{activeService.description}</p>
-
-                  <div className="services-list-divider"></div>
-
-                  <h4 className="procedures-title">Procedimientos & Tratamientos</h4>
-                  <div className="services-list-grid">
-                    {activeService.items.map((item, index) => (
-                      <div key={index} className="service-item">
-                        <span className="service-item-bullet">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                            <path d="M20 6L9 17l-5-5" />
-                          </svg>
-                        </span>
-                        <span className="service-item-text">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="detail-actions">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => booking.open(`Consulta de Especialidad: ${activeService.title}`)}
-                    >
-                      Solicitar consulta para {activeService.title}
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </div>
+                  <h3 className="service-card-title">{service.title}</h3>
                 </div>
-              )}
-            </div>
+
+                <p className="service-card-desc">{service.description}</p>
+
+                <div className="services-list-divider"></div>
+
+                <ul className="service-card-list">
+                  {service.items.map((item, index) => (
+                    <li key={index} className="service-item">
+                      <span className="service-item-bullet">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M20 6L9 17l-5-5" />
+                        </svg>
+                      </span>
+                      <span className="service-item-text">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  className="btn btn-primary w-full"
+                  onClick={() => booking.open(`Consulta de Especialidad: ${service.title}`)}
+                >
+                  Solicitar consulta
+                </button>
+              </article>
+            ))}
           </div>
         </div>
       </section>
